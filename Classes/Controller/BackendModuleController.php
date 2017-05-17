@@ -1,6 +1,6 @@
 <?php
 
-namespace B84K\BkMaintenance\Controller;
+namespace B84k\BkMaintenance\Controller;
 
 /*
  * This file is part of the TYPO3 CMS project.

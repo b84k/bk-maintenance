@@ -6,7 +6,7 @@ if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         "B84k.{$_EXTKEY}",
         'system',
-        'tx_bkMaintenance',
+        'bkMaintenance',
         'top',
         [
             'BackendModule' => 'index'

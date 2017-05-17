@@ -20,12 +20,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"B84K\\BkMaintenance\\": "Classes/"
+			"B84k\\BkMaintenance\\": "Classes/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"B84K\\BkMaintenance\\Tests\\": "Tests/"
+			"B84k\\BkMaintenance\\Tests\\": "Tests/"
 		}
 	}
 }

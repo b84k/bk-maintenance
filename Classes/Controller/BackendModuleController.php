@@ -29,7 +29,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class BackendModuleController
- * @package B84K\BkMaintenance\Controller
+ * @package B84k\BkMaintenance\Controller
  */
 class BackendModuleController extends ActionController
 {

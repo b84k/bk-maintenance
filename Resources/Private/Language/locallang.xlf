@@ -6,6 +6,9 @@
 			<trans-unit id="mlang_tabs_tab">
 				<source>Maintenance</source>
 			</trans-unit>
+			<trans-unit id="title">
+				<source>Maintenance</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

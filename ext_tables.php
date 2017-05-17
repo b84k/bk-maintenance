@@ -2,17 +2,19 @@
 defined('TYPO3_MODE') or die();
 
 if (TYPO3_MODE === 'BE') {
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+    // Module System > Maintenance
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+        "B84k.{$_EXTKEY}",
         'system',
-        'bkMaintenance',
-        '',
-        '',
+        'tx_bkMaintenance',
+        'top',
         [
-            'routeTarget' => \B84K\BkMaintenance\Controller\BackendModuleController::class . '::index',
+            'BackendModule' => 'index'
+        ],
+        [
             'access' => 'admin',
-            'name' => 'system_bkMaintenance',
-            'icon' => 'EXT:bk_maintenance/Resources/Public/Icons/module-maintenance.svg',
-            'labels' => 'LLL:EXT:bk_maintenance/Resources/Private/Language/BackendModule.xlf'
+            'icon' => "EXT:{$_EXTKEY}/Resources/Public/Icons/module-maintenance.svg",
+            'labels' => "LLL:EXT:{$_EXTKEY}/Resources/Private/Language/locallang.xlf"
         ]
     );
 }

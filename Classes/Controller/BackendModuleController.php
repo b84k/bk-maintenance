@@ -21,6 +21,7 @@ use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Beuser\Domain\Repository\BackendUserGroupRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -48,11 +49,29 @@ class BackendModuleController extends ActionController
     protected $view;
 
     /**
+     * @var BackendUserGroupRepository
+     */
+    protected $backendUserGroupRepository;
+
+    /**
      * Set up the doc header properly here
      *
      * @param ViewInterface $view
      */
     protected function initializeView(ViewInterface $view)
+    {
+
+    }
+
+    /**
+     * @param BackendUserGroupRepository $backendUserGroupRepository
+     */
+    public function injectBackendUserGroupRepository(BackendUserGroupRepository $backendUserGroupRepository)
+    {
+        $this->backendUserGroupRepository = $backendUserGroupRepository;
+    }
+
+    public function indexAction()
     {
 
     }

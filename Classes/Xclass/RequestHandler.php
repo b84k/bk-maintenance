@@ -79,7 +79,9 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
         $this->bootstrap->endOutputBufferingAndCleanPreviousOutput();
         $this->initializeOutputCompression();
 
-        $this->bootstrap->loadBaseTca();
+        if ($version['version_main'] == 8) {
+            $this->bootstrap->loadBaseTca();
+        }
 
         // Initializing the Frontend User
         $this->timeTracker->push('Front End user initialized', '');
@@ -97,9 +99,16 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
         // Initialize admin panel since simulation settings are required here:
         if ($this->controller->isBackendUserLoggedIn()) {
             $GLOBALS['BE_USER']->initializeAdminPanel();
-            $this->bootstrap
-                ->initializeBackendRouter()
-                ->loadExtTables();
+
+            if ($version['version_main'] == 8) {
+                $this->bootstrap
+                    ->initializeBackendRouter()
+                    ->loadExtTables();
+            } elseif ($version['version_main'] == 7) {
+                $this->bootstrap
+                    ->initializeBackendRouter()
+                    ->loadExtensionTables(true);
+            }
         }
         $this->controller->checkAlternativeIdMethods();
         $this->controller->clear_preview();
@@ -172,7 +181,14 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
             if ($temp_theScript) {
                 include $temp_theScript;
             } else {
-                $this->controller->preparePageContentGeneration();
+                if ($version['version_main'] == 8) {
+                    $this->controller->preparePageContentGeneration();
+                } elseif ($version['version_main'] == 7) {
+                    PageGenerator::pagegenInit();
+                    // Global content object
+                    $this->controller->newCObj();
+                }
+
                 // Content generation
                 if (!$this->controller->isINTincScript()) {
                     PageGenerator::renderContent();
@@ -181,7 +197,13 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
             }
             $this->controller->generatePage_postProcessing();
         } elseif ($this->controller->isINTincScript()) {
-            $this->controller->preparePageContentGeneration();
+            if ($version['version_main'] == 8) {
+                $this->controller->preparePageContentGeneration();
+            } elseif ($version['version_main'] == 7) {
+                PageGenerator::pagegenInit();
+                // Global content object
+                $this->controller->newCObj();
+            }
         }
         $this->controller->releaseLocks();
         $this->timeTracker->pull();
@@ -212,7 +234,11 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
                 $debugParseTime = !empty($GLOBALS['TYPO3_CONF_VARS']['FE']['debug']);
             }
             if ($debugParseTime) {
-                $this->controller->content .= LF . '<!-- Parsetime: ' . $this->getParseTime() . 'ms -->';
+                if ($version['version_main'] == 8) {
+                    $this->controller->content .= LF . '<!-- Parsetime: ' . $this->getParseTime() . 'ms -->';
+                } elseif ($version['version_main'] == 7) {
+                    $this->controller->content .= LF . '<!-- Parsetime: ' . $this->controller->scriptParseTime . 'ms -->';
+                }
             }
         }
         $this->controller->redirectToExternalUrl();

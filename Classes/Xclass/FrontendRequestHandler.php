@@ -68,7 +68,9 @@ class FrontendRequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler
             /** @var $GLOBALS ['BE_USER'] \TYPO3\CMS\Backend\FrontendBackendUserAuthentication */
             $GLOBALS['BE_USER'] = $this->controller->initializeBackendUser();
             if (!$this->controller->isBackendUserLoggedIn()) {
-                $this->controller->pageUnavailableAndExit('This page is temporarily unavailable.');
+                $extConfVars = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['bk_maintenance']);
+                $message = isset($extConfVars['maintenance_message']) ? $extConfVars['maintenance_message'] : 'This page is temporarily unavailable.';
+                $this->controller->pageUnavailableAndExit($message);
             }
         }
 

@@ -9,7 +9,7 @@ if (TYPO3_MODE === 'BE') {
         'bkMaintenance',
         'top',
         [
-            'BackendModule' => 'index'
+            'BackendModule' => 'index,save'
         ],
         [
             'access' => 'admin',

@@ -9,6 +9,30 @@
 			<trans-unit id="title">
 				<source>Maintenance</source>
 			</trans-unit>
+
+			<trans-unit id="form-btn-save">
+				<source>Save</source>
+			</trans-unit>
+
+			<trans-unit id="form-field-group">
+				<source>Select a name for the maintenance group</source>
+			</trans-unit>
+			<trans-unit id="form-field-message">
+				<source>Enter a message to be displayed on the black page</source>
+			</trans-unit>
+			<trans-unit id="form-field-selectTemplate">
+				<source>Select template for the maintenance page</source>
+			</trans-unit>
+			<trans-unit id="form-field-groupMembers">
+				<source>List of users who will still have access</source>
+			</trans-unit>
+			<trans-unit id="form-field-schedulerTasksDisabled">
+				<source>Disable scheduler tasks</source>
+			</trans-unit>
+
+			<trans-unit id="form-field-maintenanceModeEnabled">
+				<source>Activate maintenance mode</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

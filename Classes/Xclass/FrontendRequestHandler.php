@@ -1,4 +1,5 @@
 <?php
+
 namespace B84k\BkMaintenance\Xclass;
 
 /*
@@ -18,7 +19,6 @@ use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\FrontendEditing\FrontendEditingController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 use TYPO3\CMS\Frontend\View\AdminPanelView;
 
@@ -31,7 +31,8 @@ use TYPO3\CMS\Frontend\View\AdminPanelView;
  * Previously, this was called index_ts.php and also included the logic for the lightweight "eID" concept,
  * which is now handled in a separate request handler (EidRequestHandler).
  */
-class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
+class FrontendRequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler
+{
     /**
      * Handles a frontend request
      *
@@ -64,7 +65,7 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
                 $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'])
         ) {
             // Initializing a possible logged-in Backend User
-            /** @var $GLOBALS['BE_USER'] \TYPO3\CMS\Backend\FrontendBackendUserAuthentication */
+            /** @var $GLOBALS ['BE_USER'] \TYPO3\CMS\Backend\FrontendBackendUserAuthentication */
             $GLOBALS['BE_USER'] = $this->controller->initializeBackendUser();
             if (!$this->controller->isBackendUserLoggedIn()) {
                 $this->controller->pageUnavailableAndExit('This page is temporarily unavailable.');
@@ -89,7 +90,7 @@ class RequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler {
         $this->timeTracker->pull();
 
         // Initializing a possible logged-in Backend User
-        /** @var $GLOBALS['BE_USER'] \TYPO3\CMS\Backend\FrontendBackendUserAuthentication */
+        /** @var $GLOBALS ['BE_USER'] \TYPO3\CMS\Backend\FrontendBackendUserAuthentication */
         $GLOBALS['BE_USER'] = $this->controller->initializeBackendUser();
 
         // Process the ID, type and other parameters.

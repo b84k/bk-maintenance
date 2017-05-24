@@ -39,12 +39,6 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
     protected $bootstrap;
 
     /**
-     * Instance of the TSFE object
-     * @var TypoScriptFrontendController
-     */
-    protected $controller;
-
-    /**
      * @var array
      */
     protected $extConf;
@@ -68,20 +62,6 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
     {
         if (!$this->bootstrap instanceof Bootstrap) {
             $this->bootstrap = $bootstrap;
-        }
-
-        if (!$this->controller instanceof TypoScriptFrontendController) {
-            $this->controller = GeneralUtility::makeInstance(
-                TypoScriptFrontendController::class,
-                null,
-                GeneralUtility::_GP('id'),
-                GeneralUtility::_GP('type'),
-                GeneralUtility::_GP('no_cache'),
-                GeneralUtility::_GP('cHash'),
-                null,
-                GeneralUtility::_GP('MP'),
-                GeneralUtility::_GP('RDCT')
-            );
         }
     }
 
@@ -152,7 +132,7 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
             $userGroups = explode(',', $GLOBALS['BE_USER']->user['usergroup']);
             foreach ($userGroups as $key => $value) {
                 if (!empty($value)) {
-                    $userGroup = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('title', 'be_groups', "uid=3");
+                    $userGroup = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('title', 'be_groups', "uid={$value}");
                     if (strtolower($userGroup['title']) === $this->extConf['maintenance_group']) {
                         return true;
                     }
@@ -160,5 +140,42 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
             }
         }
         return false;
+    }
+
+    /**
+     *
+     */
+    protected function handleMaintenancePage() {
+        $handling = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageUnavailable_handling'];
+        $header = $header ?: $GLOBALS['TYPO3_CONF_VARS']['FE']['pageUnavailable_handling_statheader'];
+        $message = isset($this->extConf['pageUnavailable_message']) ? $this->extConf['pageUnavailable_message'] : 'This page is temporarily unavailable.';
+
+        if ($header) {
+            $headerArr = preg_split('/\\r|\\n/', $header, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($headerArr as $header) {
+                header($header);
+            }
+        }
+
+        if (GeneralUtility::isFirstPartOfStr($handling, 'READFILE:')) {
+            $readFile = GeneralUtility::getFileAbsFileName(trim(substr($handling, 9)));
+            if (@is_file($readFile)) {
+                echo str_replace(
+                    [
+                        '###CURRENT_URL###',
+                        '###REASON###'
+                    ],
+                    [
+                        GeneralUtility::getIndpEnv('REQUEST_URI'),
+                        htmlspecialchars($message)
+                    ],
+                    GeneralUtility::getUrl($readFile)
+                );
+            } else {
+                throw new \RuntimeException('Configuration Error: 404 page "' . $readFile . '" could not be found.', 1294587214);
+            }
+        }
+
+        die;
     }
 }

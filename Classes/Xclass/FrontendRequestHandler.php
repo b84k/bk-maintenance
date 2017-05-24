@@ -112,7 +112,12 @@ class FrontendRequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler
                     ->initializeBackendRouter()
                     ->loadExtensionTables(true);
             }
+        } else {
+            if ($version['version_main'] == 7) {
+                $this->bootstrap->loadCachedTca();
+            }
         }
+
         $this->controller->checkAlternativeIdMethods();
         $this->controller->clear_preview();
         $this->controller->determineId();

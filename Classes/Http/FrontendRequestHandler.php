@@ -44,8 +44,7 @@ class FrontendRequestHandler extends AbstractRequestHandler
             }
         }
 
-        $message = isset($this->extConf['pageUnavailable_message']) ? $this->extConf['pageUnavailable_message'] : 'This page is temporarily unavailable.';
-        $this->controller->pageUnavailableAndExit($message);
+        $this->handleMaintenancePage();
     }
 
     /**

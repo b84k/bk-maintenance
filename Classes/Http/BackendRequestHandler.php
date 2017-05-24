@@ -19,7 +19,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Http\RequestHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class RequestHandler
@@ -45,8 +44,7 @@ class BackendRequestHandler extends AbstractRequestHandler
             }
         }
 
-        $message = isset($this->extConf['pageUnavailable_message']) ? $this->extConf['pageUnavailable_message'] : 'This page is temporarily unavailable.';
-        $this->controller->pageUnavailableAndExit($message);
+        $this->handleMaintenancePage();
     }
 
     /**

@@ -37,7 +37,7 @@ class FrontendRequestHandler extends AbstractRequestHandler
     {
         $this->bootstrap->initializeBackendUser();
 
-        if (!$GLOBALS['BE_USER']->user || $this->isAdmin() || $this->isUserInMaintenanceGroup()) {
+        if ($GLOBALS['BE_USER']->user && ($this->isAdmin() || $this->isUserInMaintenanceGroup())) {
             $requestHandler = GeneralUtility::makeInstance(RequestHandler::class, $this->bootstrap);
             if ($requestHandler->canHandleRequest($request)) {
                 return $requestHandler->handleRequest($request);

@@ -20,8 +20,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Http\RequestHandlerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Class AbstractRequestHandler
@@ -132,9 +130,11 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
             $userGroups = explode(',', $GLOBALS['BE_USER']->user['usergroup']);
             foreach ($userGroups as $key => $value) {
                 if (!empty($value)) {
-                    $userGroup = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('title', 'be_groups', "uid={$value}");
-                    if (strtolower($userGroup['title']) === $this->extConf['maintenance_group']) {
-                        return true;
+                    $userGroup = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('title,hidden', 'be_groups', "uid={$value}");
+                    if (!$userGroup['hidden']) {
+                        if (strtolower($userGroup['title']) === $this->extConf['maintenance_group']) {
+                            return true;
+                        }
                     }
                 }
             }

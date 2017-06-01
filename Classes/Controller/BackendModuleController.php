@@ -215,23 +215,33 @@ class BackendModuleController extends ActionController
         $maintenance->setSchedulerTasksDisabled($this->confVars[self::MAINTENANCE_DISABLE_SCHEDULER_TASKS]);
         $maintenance->setMaintenanceModeEnabled($this->confVars[self::PAGE_UNAVAILABLE_FORCE]);
 
+        // Get all admin users
+        $query = $this->backendUserRepository->createQuery();
+        $query->matching(
+            $query->equals('admin', 1)
+        );
+        $backendUsers = $query->execute();
+        foreach ($backendUsers as $key => $backendUser) {
+            $maintenance->addBackendUser($backendUser);
+        }
+
+        // Get all users in the maintenance group
         $backendUserGroups = $this->backendUserGroupRepository->findAll();
         foreach ($backendUserGroups as $key => $backendUserGroup) {
-            if ($this->confVars[self::MAINTENANCE_GROUP] === strtolower($backendUserGroup->getTitle())) {
-                $maintenance->setBackendUserGroup($backendUserGroup);
+            if (!$backendUserGroup->getHidden()) {
+                if ($this->confVars[self::MAINTENANCE_GROUP] === strtolower($backendUserGroup->getTitle())) {
+                    $maintenance->setBackendUserGroup($backendUserGroup);
 
-                $uid = $backendUserGroup->getUid();
-                $query = $this->backendUserRepository->createQuery();
-                $query->matching(
-                    $query->logicalOr(
-                        $query->like('usergroup', "%{$uid}%"),
-                        $query->equals('admin', 1)
-                    )
-                );
+                    $uid = $backendUserGroup->getUid();
+                    $query = $this->backendUserRepository->createQuery();
+                    $query->matching(
+                        $query->like('usergroup', "%{$uid}%")
+                    );
 
-                $backendUsers = $query->execute();
-                foreach ($backendUsers as $key => $backendUser) {
-                    $maintenance->addBackendUser($backendUser);
+                    $backendUsers = $query->execute();
+                    foreach ($backendUsers as $key => $backendUser) {
+                        $maintenance->addBackendUser($backendUser);
+                    }
                 }
             }
         }

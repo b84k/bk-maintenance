@@ -42,6 +42,7 @@ class BackendModuleController extends ActionController
     const MAINTENANCE_MESSAGE = 'maintenance_message';
     const MAINTENANCE_DISABLE_SCHEDULER_TASKS = 'maintenance_disableSchedulerTasks';
     const PAGE_UNAVAILABLE_FORCE = 'pageUnavailable_force';
+    const PAGE_UNAVAILABLE_HANDLING = 'pageUnavailable_handling';
 
     /** @var ConfigurationFileManager $configurationFileManager */
     protected $configurationFileManager;
@@ -98,7 +99,7 @@ class BackendModuleController extends ActionController
      */
     protected function initializeView(ViewInterface $view)
     {
-
+        // Nothing to do yet
     }
 
     /**
@@ -134,12 +135,13 @@ class BackendModuleController extends ActionController
             self::MAINTENANCE_GROUP => trim($newMaintenance->getGroup()),
             self::MAINTENANCE_TEMPLATE => $newMaintenance->getTemplate(),
             self::MAINTENANCE_MESSAGE => $newMaintenance->getMessage(),
-            self::MAINTENANCE_DISABLE_SCHEDULER_TASKS => $newMaintenance->getSchedulerTasksDisabled()
+            self::MAINTENANCE_DISABLE_SCHEDULER_TASKS => $newMaintenance->getSchedulerTasksDisabled(),
         ];
 
         // Write changes to local configuration file.
         $configurationPathValuePairs = [
             'FE/' . self::PAGE_UNAVAILABLE_FORCE => $newMaintenance->getMaintenanceModeEnabled(),
+            'FE/' . self::PAGE_UNAVAILABLE_HANDLING => 'READFILE:typo3conf/ext/bk_maintenance/Resources/Private/Templates/Template' . $newMaintenance->getTemplate() . '.html',
             'EXT/extConf/' . self::EXT_KEY => serialize($extensionConfVars)
         ];
 

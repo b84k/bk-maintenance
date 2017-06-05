@@ -1,0 +1,24 @@
+{
+	"name": "b84k/bk-maintenance",
+	"type": "typo3-cms-framework",
+	"description": "TYPO3 Core",
+	"homepage": "https://typo3.org",
+	"license": ["GPL-2.0+"],
+
+	"require": {
+		"typo3/cms-core": "*"
+	},
+	"replace": {
+		"bk_maintenance": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"B84k\\BkMaintenance\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"B84k\\BkMaintenance\\Tests\\": "Tests/"
+		}
+	}
+}

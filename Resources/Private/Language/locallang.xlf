@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-17T09:30:00Z" product-name="bkMaintenance">
+		<header/>
+		<body>
+			<trans-unit id="mlang_tabs_tab">
+				<source>Maintenance</source>
+			</trans-unit>
+			<trans-unit id="title">
+				<source>Maintenance</source>
+			</trans-unit>
+
+			<trans-unit id="form-btn-save">
+				<source>Save</source>
+			</trans-unit>
+
+			<trans-unit id="form-field-group">
+				<source>Select a name for the maintenance group</source>
+			</trans-unit>
+			<trans-unit id="form-field-message">
+				<source>Enter a message to be displayed on the black page</source>
+			</trans-unit>
+			<trans-unit id="form-field-selectTemplate">
+				<source>Select template for the maintenance page</source>
+			</trans-unit>
+			<trans-unit id="form-field-groupMembers">
+				<source>List of users who will still have access</source>
+			</trans-unit>
+			<trans-unit id="form-field-schedulerTasksDisabled">
+				<source>Disable scheduler tasks</source>
+			</trans-unit>
+
+			<trans-unit id="form-field-maintenanceModeEnabled">
+				<source>Activate maintenance mode</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

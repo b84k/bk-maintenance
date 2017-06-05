@@ -1,10 +1,16 @@
 {
 	"name": "b84k/bk-maintenance",
 	"type": "typo3-cms-framework",
-	"description": "TYPO3 Core",
-	"homepage": "https://typo3.org",
+	"description": "TYPO3 Maintenance Mode",
+	"homepage": "https://gitlab.com/b84k/bk-maintenance",
 	"license": ["GPL-2.0+"],
-
+	"authors": [
+		{
+			"name": "Benjamin Kurz",
+			"email": "benny.kurz@gmail.com",
+			"role": "Developer"
+		}
+	],
 	"require": {
 		"typo3/cms-core": "*"
 	},

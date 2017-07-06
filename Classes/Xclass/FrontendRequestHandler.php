@@ -243,7 +243,7 @@ class FrontendRequestHandler extends \TYPO3\CMS\Frontend\Http\RequestHandler
             }
             if ($debugParseTime) {
                 if ($version['version_main'] == 8) {
-                    $this->controller->content .= LF . '<!-- Parsetime: ' . $this->getParseTime() . 'ms -->';
+                    $this->controller->content .= LF . '<!-- Parsetime: ' . $this->timeTracker->getParseTime() . 'ms -->';
                 } elseif ($version['version_main'] == 7) {
                     $this->controller->content .= LF . '<!-- Parsetime: ' . $this->controller->scriptParseTime . 'ms -->';
                 }

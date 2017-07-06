@@ -131,6 +131,8 @@ class BackendModuleController extends ActionController
      */
     public function saveAction(Maintenance $newMaintenance)
     {
+        $this->initConfVars();
+
         $extensionConfVars = [
             self::MAINTENANCE_GROUP => trim($newMaintenance->getGroup()),
             self::MAINTENANCE_TEMPLATE => $newMaintenance->getTemplate(),
@@ -141,7 +143,7 @@ class BackendModuleController extends ActionController
         // Write changes to local configuration file.
         $configurationPathValuePairs = [
             'FE/' . self::PAGE_UNAVAILABLE_FORCE => $newMaintenance->getMaintenanceModeEnabled(),
-            'FE/' . self::PAGE_UNAVAILABLE_HANDLING => 'READFILE:typo3conf/ext/bk_maintenance/Resources/Private/Templates/Template' . $newMaintenance->getTemplate() . '.html',
+            'FE/' . self::PAGE_UNAVAILABLE_HANDLING => 'READFILE:' . $this->confVars['maintenance_templates'][$newMaintenance->getTemplate()]['path'],
             'EXT/extConf/' . self::EXT_KEY => serialize($extensionConfVars)
         ];
 
